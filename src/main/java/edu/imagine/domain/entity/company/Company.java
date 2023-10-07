@@ -1,14 +1,9 @@
-package edu.imagine.entity.company;
+package edu.imagine.domain.entity.company;
 
 
-import edu.imagine.entity.base.AuditableEntity;
-import edu.imagine.entity.user.User;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import edu.imagine.domain.entity.base.AuditableEntity;
+import edu.imagine.domain.entity.user.User;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,15 +12,15 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import static jakarta.persistence.CascadeType.ALL;
 
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false, of = "name")
 @ToString(callSuper = true, exclude = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
@@ -36,24 +31,27 @@ public class Company extends AuditableEntity<Integer> {
     String name;
 
     @OneToMany(mappedBy = "company", cascade = ALL, orphanRemoval = true)
-    List<User> users;
+    @MapKey(name = "username")
+    Map<String, User> users;
 
     @ElementCollection
     @CollectionTable(name = "company_locale")
-    List<LocaleInfo> locales;
+    @MapKeyColumn(name = "lang")
+    @Column(name = "description")
+    Map<String, String> locales;
 
     public void addUser(User user) {
         user.setCompany(this);
     }
 
-    public void addLocale(LocaleInfo locale) {
-        this.locales.add(locale);
+    public void addLocale(String lang, String descr) {
+        this.locales.put(lang, descr);
     }
 
-    public Company(LocalDateTime createdAt, String createdBy, String name, List<User> users, List<LocaleInfo> locale) {
+    public Company(LocalDateTime createdAt, String createdBy, String name, Map<String, User> users, Map<String, String> locales) {
         super(createdAt, createdBy);
         this.name = name;
-        this.users = (users != null) ? users : new ArrayList<>();
-        this.locales = (locales != null) ? locales : new ArrayList<>();
+        this.users = (users != null) ? users : new HashMap<>();
+        this.locales = (locales != null) ? locales : new HashMap<>();
     }
 }

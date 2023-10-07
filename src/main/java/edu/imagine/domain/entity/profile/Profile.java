@@ -1,8 +1,8 @@
-package edu.imagine.entity.profile;
+package edu.imagine.domain.entity.profile;
 
 
-import edu.imagine.entity.base.BaseEntity;
-import edu.imagine.entity.user.User;
+import edu.imagine.domain.entity.base.BaseEntity;
+import edu.imagine.domain.entity.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -22,7 +22,7 @@ import static jakarta.persistence.EnumType.STRING;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false, of = "user")
 @ToString(callSuper = true, exclude = "user")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity

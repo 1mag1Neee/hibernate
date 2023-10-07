@@ -1,4 +1,4 @@
-package edu.imagine.entity.profile;
+package edu.imagine.domain.entity.profile;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

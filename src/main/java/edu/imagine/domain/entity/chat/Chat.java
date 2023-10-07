@@ -1,7 +1,7 @@
-package edu.imagine.entity.chat;
+package edu.imagine.domain.entity.chat;
 
-import edu.imagine.entity.base.BaseEntity;
-import edu.imagine.entity.userchat.UserChat;
+import edu.imagine.domain.entity.base.BaseEntity;
+import edu.imagine.domain.entity.userchat.UserChat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
-
 
 @Data
 @NoArgsConstructor

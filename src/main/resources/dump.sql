@@ -28,15 +28,16 @@ CREATE TABLE profile
 CREATE TABLE chat
 (
     id BIGSERIAL PRIMARY KEY,
-    created_at TIMESTAMP,
-    created_by VARCHAR(32)
+    name VARCHAR(32)
 );
 
 CREATE TABLE users_chat
 (
     id         BIGSERIAL PRIMARY KEY,
     user_id    BIGINT REFERENCES users (id) NOT NULL,
-    chat_id    BIGINT REFERENCES chat (id)  NOT NULL
+    chat_id    BIGINT REFERENCES chat (id)  NOT NULL,
+    created_at TIMESTAMP,
+    created_by VARCHAR(32)
 );
 
 CREATE TABLE company_locale

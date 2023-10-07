@@ -1,9 +1,9 @@
-package edu.imagine.entity.userchat;
+package edu.imagine.domain.entity.userchat;
 
 
-import edu.imagine.entity.base.AuditableEntity;
-import edu.imagine.entity.chat.Chat;
-import edu.imagine.entity.user.User;
+import edu.imagine.domain.entity.chat.Chat;
+import edu.imagine.domain.entity.user.User;
+import edu.imagine.domain.entity.base.AuditableEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -23,7 +23,7 @@ import static jakarta.persistence.CascadeType.PERSIST;
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true, exclude = "user")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, of = {"user", "chat"})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "users_chat", schema = "public")

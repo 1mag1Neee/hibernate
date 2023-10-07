@@ -1,4 +1,4 @@
-package edu.imagine.entity.base;
+package edu.imagine.domain.entity.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

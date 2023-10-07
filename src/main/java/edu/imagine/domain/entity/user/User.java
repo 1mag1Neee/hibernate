@@ -1,10 +1,10 @@
-package edu.imagine.entity.user;
+package edu.imagine.domain.entity.user;
 
 
-import edu.imagine.entity.base.BaseEntity;
-import edu.imagine.entity.company.Company;
-import edu.imagine.entity.profile.Profile;
-import edu.imagine.entity.userchat.UserChat;
+import edu.imagine.domain.entity.company.Company;
+import edu.imagine.domain.entity.profile.Profile;
+import edu.imagine.domain.entity.base.BaseEntity;
+import edu.imagine.domain.entity.userchat.UserChat;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,11 +24,11 @@ import static lombok.AccessLevel.PRIVATE;
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(of = "username", callSuper = false)
 @FieldDefaults(level = PRIVATE)
 @Entity
 @Table(name = "users", schema = "public")
-public class User extends BaseEntity<Long> {
+public class User extends BaseEntity<Long> implements Comparable<User>{
 
     @Enumerated(value = EnumType.STRING)
     Role role;
@@ -53,7 +53,7 @@ public class User extends BaseEntity<Long> {
 
     public void setCompany(Company company) {
         this.company = company;
-        company.getUsers().add(this);
+        company.getUsers().put(username, this);
     }
 
     public void setProfile(Profile profile) {
@@ -73,5 +73,10 @@ public class User extends BaseEntity<Long> {
         this.company = company;
         this.profile = profile;
         this.userChats = (userChats != null) ? userChats : new ArrayList<>();
+    }
+
+    @Override
+    public int compareTo(User o) {
+        return (int) (id - o.id);
     }
 }
