@@ -1,9 +1,9 @@
 package edu.imagine.domain.entity.user;
 
 
+import edu.imagine.domain.entity.base.BaseEntity;
 import edu.imagine.domain.entity.company.Company;
 import edu.imagine.domain.entity.profile.Profile;
-import edu.imagine.domain.entity.base.BaseEntity;
 import edu.imagine.domain.entity.userchat.UserChat;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
@@ -28,7 +28,7 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 @Entity
 @Table(name = "users", schema = "public")
-public class User extends BaseEntity<Long> implements Comparable<User>{
+public class User extends BaseEntity<Long> implements Comparable<User> {
 
     @Enumerated(value = EnumType.STRING)
     Role role;
@@ -44,7 +44,7 @@ public class User extends BaseEntity<Long> implements Comparable<User>{
     @JoinColumn(name = "company_id")
     Company company;
 
-    @OneToOne(cascade = ALL, optional = false, orphanRemoval = true)
+    @OneToOne(cascade = ALL, optional = false, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     Profile profile;
 
@@ -77,6 +77,6 @@ public class User extends BaseEntity<Long> implements Comparable<User>{
 
     @Override
     public int compareTo(User o) {
-        return (int) (id - o.id);
+        return (int) (this.id - o.id);
     }
 }

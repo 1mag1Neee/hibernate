@@ -1,26 +1,54 @@
-TRUNCATE company, chat, company_locale, profile, users_chat, users CASCADE;
+SET search_path TO public;
 
-ALTER SEQUENCE chat_id_seq RESTART;
-ALTER SEQUENCE company_id_seq RESTART;
-ALTER SEQUENCE users_chat_id_seq RESTART;
-ALTER SEQUENCE users_id_seq RESTART;
-ALTER SEQUENCE profile_id_seq RESTART;
+CREATE TABLE company
+(
+    id         SERIAL PRIMARY KEY,
+    name       VARCHAR(32) NOT NULL UNIQUE,
+    created_at TIMESTAMP,
+    created_by VARCHAR(32)
+);
 
-UPDATE company
-SET id = DEFAULT
-WHERE TRUE;
-UPDATE users
-SET id = DEFAULT
-WHERE TRUE;
-UPDATE users_chat
-SET id = DEFAULT
-WHERE TRUE;
-UPDATE profile
-SET id = DEFAULT
-WHERE TRUE;
-UPDATE chat
-SET id = DEFAULT
-WHERE TRUE;
+CREATE TABLE profile
+(
+    id         BIGSERIAL PRIMARY KEY,
+    firstname  VARCHAR(128),
+    lastname   VARCHAR(128),
+    birth_date DATE,
+    language   VARCHAR(32)
+);
+
+CREATE TABLE chat
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(32)
+);
+
+CREATE TABLE users
+(
+    id         BIGSERIAL PRIMARY KEY,
+    role       VARCHAR(32),
+    info       JSONB,
+    username   VARCHAR(128) UNIQUE         NOT NULL,
+    company_id INT REFERENCES company (id) NOT NULL,
+    profile_id INT REFERENCES profile (id) NOT NULL UNIQUE
+);
+
+CREATE TABLE users_chat
+(
+    id         BIGSERIAL PRIMARY KEY,
+    user_id    BIGINT REFERENCES users (id) NOT NULL,
+    chat_id    BIGINT REFERENCES chat (id)  NOT NULL,
+    created_at TIMESTAMP,
+    created_by VARCHAR(32)
+);
+
+CREATE TABLE company_locale
+(
+    company_id  INT REFERENCES company (id) NOT NULL,
+    lang        CHAR(2)                     NOT NULL,
+    description VARCHAR(128)                NOT NULL,
+    PRIMARY KEY (company_id, lang)
+);
 
 -- Добавляем компании
 INSERT INTO company (name, created_at, created_by)
@@ -107,6 +135,9 @@ VALUES ('Chat 1'),
 -- Добавляем связи между пользователями и чатами
 INSERT INTO users_chat (user_id, chat_id, created_at, created_by)
 VALUES (1, 1, NOW(), 'Admin'),
+       (1, 2, NOW(), 'Admin'),
+       (1, 3, NOW(), 'Admin'),
+       (1, 4, NOW(), 'Admin'),
        (2, 1, NOW(), 'Admin'),
        (3, 1, NOW(), 'Admin'),
        (4, 2, NOW(), 'Admin'),

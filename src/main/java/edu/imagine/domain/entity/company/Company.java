@@ -32,13 +32,13 @@ public class Company extends AuditableEntity<Integer> {
 
     @OneToMany(mappedBy = "company", cascade = ALL, orphanRemoval = true)
     @MapKey(name = "username")
-    Map<String, User> users;
+    Map<String, User> users = new HashMap<>();
 
     @ElementCollection
     @CollectionTable(name = "company_locale")
     @MapKeyColumn(name = "lang")
     @Column(name = "description")
-    Map<String, String> locales;
+    Map<String, String> locales = new HashMap<>();
 
     public void addUser(User user) {
         user.setCompany(this);
@@ -51,7 +51,5 @@ public class Company extends AuditableEntity<Integer> {
     public Company(LocalDateTime createdAt, String createdBy, String name, Map<String, User> users, Map<String, String> locales) {
         super(createdAt, createdBy);
         this.name = name;
-        this.users = (users != null) ? users : new HashMap<>();
-        this.locales = (locales != null) ? locales : new HashMap<>();
     }
 }

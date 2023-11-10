@@ -20,11 +20,12 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PROTECTED)
 @MappedSuperclass
-abstract public class AuditableEntity<T extends Number> extends BaseEntity<T>{
+abstract public class AuditableEntity<T extends Number> extends BaseEntity<T> {
 
     @Column(name = "created_at")
     LocalDateTime createdAt;
 
     @Column(name = "created_by")
     String createdBy;
+
 }

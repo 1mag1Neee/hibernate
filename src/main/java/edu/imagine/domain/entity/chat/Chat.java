@@ -12,6 +12,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +33,15 @@ public class Chat extends BaseEntity<Long> {
     String name;
 
     @OneToMany(mappedBy = "chat", orphanRemoval = true, cascade = ALL)
-    List<UserChat> userChats;
+            @Fetch(FetchMode.SUBSELECT)
+    List<UserChat> userChats = new ArrayList<>();
 
     public void addUserChat(UserChat userChat) {
         this.userChats.add(userChat);
         userChat.setChat(this);
     }
 
-    public Chat(String name, List<UserChat> userChats) {
+    public Chat(String name) {
         this.name = name;
-        this.userChats = (userChats != null) ? userChats : new ArrayList<>();
     }
 }

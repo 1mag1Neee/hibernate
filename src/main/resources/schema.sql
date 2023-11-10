@@ -1,13 +1,3 @@
-CREATE TABLE users
-(
-    id         BIGSERIAL PRIMARY KEY,
-    role       VARCHAR(32),
-    info       JSONB,
-    username   VARCHAR(128) UNIQUE         NOT NULL,
-    company_id INT REFERENCES company (id) NOT NULL,
-    profile_id INT REFERENCES profile (id) NOT NULL UNIQUE
-);
-
 CREATE TABLE company
 (
     id         SERIAL PRIMARY KEY,
@@ -29,6 +19,16 @@ CREATE TABLE chat
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(32)
+);
+
+CREATE TABLE users
+(
+    id         BIGSERIAL PRIMARY KEY,
+    role       VARCHAR(32),
+    info       JSONB,
+    username   VARCHAR(128) UNIQUE         NOT NULL,
+    company_id INT REFERENCES company (id) NOT NULL,
+    profile_id INT REFERENCES profile (id) NOT NULL UNIQUE
 );
 
 CREATE TABLE users_chat

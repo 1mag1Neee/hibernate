@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -36,7 +37,8 @@ public class Profile extends BaseEntity<Long> {
     @Enumerated(STRING)
     Language language;
 
-    @OneToOne(mappedBy = "profile", optional = false)
+    @OneToOne(mappedBy = "profile", optional = false, fetch = FetchType.LAZY)
     User user;
 
 }
+
