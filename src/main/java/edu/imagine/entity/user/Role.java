@@ -1,4 +1,4 @@
-package edu.imagine.domain.entity.user;
+package edu.imagine.entity.user;
 
 public enum Role {
     Admin,

@@ -16,7 +16,6 @@
             <pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} -%kvp- %msg%n</pattern>
         </encoder>
     </appender>
-
     <root level="WARN">
         <appender-ref ref="FILE" />
     </root>

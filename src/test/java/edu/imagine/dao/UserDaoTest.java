@@ -1,12 +1,20 @@
-package edu.imagine.domain.dao;
+package edu.imagine.dao;
 
-import edu.imagine.domain.entity.user.Role;
-import edu.imagine.domain.filter.UserFilter;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQuery;
+import edu.imagine.entity.user.Role;
+import edu.imagine.entity.user.User;
+import edu.imagine.filter.UserFilter;
 import edu.imagine.util.HibernateTestUtil;
+import lombok.Cleanup;
 import org.hibernate.Session;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.List;
+
+import static edu.imagine.entity.user.QUser.user;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -23,6 +31,7 @@ class UserDaoTest {
     private static final int FIND_BY_CHAT_NAME_LIST_SIZE = 3;
     private static final int FIND_BY_ROLE_LIST_SIZE = 29;
     private static final int FIND_BY_FILTER_LIST_SIZE = 2;
+    private static final int FIND_PAYMENTS_BY_COMPANY_LIST_SIZE = 25;
 
 
     @Test
@@ -46,8 +55,8 @@ class UserDaoTest {
     }
 
     @Test
-    void findAllUsersByCompanyNameTest() {
-        assertThat(userDao.findAllUsersByCompanyName(session, COMPANY_NAME))
+    void findAllByCompanyNameTest() {
+        assertThat(userDao.findAllByCompanyName(session, COMPANY_NAME))
                 .hasSize(FIND_BY_COMPANY_NAME_LIST_SIZE);
     }
 
@@ -58,8 +67,8 @@ class UserDaoTest {
     }
 
     @Test
-    void findAllUsersByRole() {
-        assertThat(userDao.findAllUsersByRole(session, Role.User))
+    void findAllByRole() {
+        assertThat(userDao.findAllByRole(session, Role.User))
                 .hasSize(FIND_BY_ROLE_LIST_SIZE);
     }
 
@@ -72,6 +81,42 @@ class UserDaoTest {
                 .hasSize(FIND_BY_FILTER_LIST_SIZE);
     }
 
+    @Test
+    void findAllPaymentsByCompanyNameTest() {
+        assertThat(userDao.findAllPaymentsByCompanyName(session, "Company 5"))
+                .hasSize(FIND_PAYMENTS_BY_COMPANY_LIST_SIZE);
+    }
 
+    @Test
+    void findAverageAmountByFirstAndLastNamesTest() {
+        Double avg = userDao.findAverageAmountByFirstAndLastNames(session, "Ava", "Wilson");
+        assertThat(Math.floor(avg))
+                .isEqualTo(1479d);
+    }
 
+    @Test
+    void findCompanyNamesWithAvgUserPaymentsOrderedByCompanyNameTest() {
+        List<Tuple> dtos = userDao.findCompanyNamesWithAvgUserPaymentsOrderedByCompanyName(session);
+        List<String> companyNames = dtos.stream().map(t -> t.get(0, String.class)).toList();
+        List<Double> avgAmounts = dtos.stream().map(t -> t.get(1, Double.class)).toList();
+
+        Assertions.assertAll(
+                () -> assertThat(dtos).hasSize(4),
+                () -> assertThat(companyNames).contains("Company 1", "Company 2", "Company 3", "Company 5"),
+                () -> assertThat(avgAmounts).contains(1500d, 1480d)
+        );
+    }
+
+    @Test
+    void stuff() {
+        session.get(User.class, 1L);
+    }
+
+    public static void main(String[] args) {
+        @Cleanup Session session = HibernateTestUtil.buildSession();
+        List<User> fetch = new JPAQuery<User>(session)
+                .select(user)
+                .from(user)
+                .fetch();
+    }
 }

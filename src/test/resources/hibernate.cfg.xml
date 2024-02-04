@@ -9,10 +9,11 @@
     <property name="show_sql">true</property>
     <property name="format_sql">true</property>
 
-    <mapping class="edu.imagine.domain.entity.user.User"/>
-    <mapping class="edu.imagine.domain.entity.company.Company"/>
-    <mapping class="edu.imagine.domain.entity.profile.Profile"/>
-    <mapping class="edu.imagine.domain.entity.chat.Chat"/>
-    <mapping class="edu.imagine.domain.entity.userchat.UserChat"/>
+    <mapping class="edu.imagine.entity.user.User"/>
+    <mapping class="edu.imagine.entity.company.Company"/>
+    <mapping class="edu.imagine.entity.profile.Profile"/>
+    <mapping class="edu.imagine.entity.chat.Chat"/>
+    <mapping class="edu.imagine.entity.userchat.UserChat"/>
+    <mapping class="edu.imagine.entity.payment.Payment"/>
   </session-factory>
 </hibernate-configuration>

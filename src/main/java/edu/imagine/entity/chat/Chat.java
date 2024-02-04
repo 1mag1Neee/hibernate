@@ -1,19 +1,16 @@
-package edu.imagine.domain.entity.chat;
+package edu.imagine.entity.chat;
 
-import edu.imagine.domain.entity.base.BaseEntity;
-import edu.imagine.domain.entity.userchat.UserChat;
-import jakarta.persistence.Column;
+import edu.imagine.entity.base.BaseEntity;
+import edu.imagine.entity.userchat.UserChat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,18 +19,15 @@ import static jakarta.persistence.CascadeType.ALL;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true, exclude = "userChats")
+@EqualsAndHashCode(callSuper = false, of = "name")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "chat", schema = "public")
+@BatchSize(size = 32)
 public class Chat extends BaseEntity<Long> {
 
-    @Column(name = "name")
     String name;
 
     @OneToMany(mappedBy = "chat", orphanRemoval = true, cascade = ALL)
-            @Fetch(FetchMode.SUBSELECT)
     List<UserChat> userChats = new ArrayList<>();
 
     public void addUserChat(UserChat userChat) {
@@ -41,6 +35,7 @@ public class Chat extends BaseEntity<Long> {
         userChat.setChat(this);
     }
 
+    @Builder
     public Chat(String name) {
         this.name = name;
     }

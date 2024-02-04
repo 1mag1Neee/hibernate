@@ -1,4 +1,4 @@
-package edu.imagine.domain.dao;
+package edu.imagine.dao;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class QPredicate {
+public final class QPredicate {
 
     private static final List<Predicate> predicates = new ArrayList<>();
 
@@ -21,7 +21,6 @@ public class QPredicate {
     public <T> QPredicate add(T object, Function<T, Predicate> function) {
         if (object != null)
             predicates.add(function.apply(object));
-
         return this;
     }
 

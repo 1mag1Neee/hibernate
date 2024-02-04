@@ -1,6 +1,5 @@
-package edu.imagine.domain.entity.profile;
+package edu.imagine.entity.profile;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,13 +13,8 @@ import java.time.LocalDate;
 @Embeddable
 public class PersonalInfo {
 
-    @Column(name = "firstname")
     String firstname;
-
-    @Column(name = "lastname")
     String lastname;
-
-    @Column(name = "birth_date")
     LocalDate birthDate;
 
 }

@@ -2,6 +2,7 @@ package edu.imagine.util;
 
 import lombok.experimental.UtilityClass;
 import org.hibernate.Session;
+import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 import org.testcontainers.containers.PostgreSQLContainer;
 
@@ -21,6 +22,7 @@ public final class HibernateTestUtil {
             setProperty("hibernate.connection.username", POSTGRES.getUsername());
             setProperty("hibernate.connection.password", POSTGRES.getPassword());
         }}
+                .setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy())
                 .configure()
                 .buildSessionFactory()
                 .openSession();

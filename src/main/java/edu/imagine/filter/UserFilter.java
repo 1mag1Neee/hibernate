@@ -1,6 +1,6 @@
-package edu.imagine.domain.filter;
+package edu.imagine.filter;
 
-import edu.imagine.domain.entity.user.Role;
+import edu.imagine.entity.user.Role;
 import lombok.Builder;
 import lombok.Value;
 

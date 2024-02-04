@@ -28,8 +28,17 @@ CREATE TABLE users
     info       JSONB,
     username   VARCHAR(128) UNIQUE         NOT NULL,
     company_id INT REFERENCES company (id) NOT NULL,
-    profile_id INT REFERENCES profile (id) NOT NULL UNIQUE
+    profile_id BIGINT REFERENCES profile (id) NOT NULL UNIQUE
 );
+
+create table payment
+(
+    id BIGSERIAL PRIMARY KEY,
+    amount INT NOT NULL,
+    receiver_id BIGINT REFERENCES users (id) NOT NULL,
+    version BIGINT NOT NULL default 1
+);
+
 
 CREATE TABLE users_chat
 (

@@ -1,9 +1,8 @@
-package edu.imagine.domain.entity.profile;
+package edu.imagine.entity.profile;
 
 
-import edu.imagine.domain.entity.base.BaseEntity;
-import edu.imagine.domain.entity.user.User;
-import jakarta.persistence.Column;
+import edu.imagine.entity.base.BaseEntity;
+import edu.imagine.entity.user.User;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -33,7 +32,6 @@ public class Profile extends BaseEntity<Long> {
     @Embedded
     PersonalInfo personalInfo;
 
-    @Column(name = "language")
     @Enumerated(STRING)
     Language language;
 

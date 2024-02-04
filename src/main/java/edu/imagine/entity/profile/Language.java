@@ -1,4 +1,4 @@
-package edu.imagine.domain.entity.profile;
+package edu.imagine.entity.profile;
 
 public enum Language {
     Russian,

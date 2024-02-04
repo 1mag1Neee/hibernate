@@ -30,7 +30,15 @@ CREATE TABLE users
     info       JSONB,
     username   VARCHAR(128) UNIQUE         NOT NULL,
     company_id INT REFERENCES company (id) NOT NULL,
-    profile_id INT REFERENCES profile (id) NOT NULL UNIQUE
+    profile_id BIGINT REFERENCES profile (id) NOT NULL UNIQUE
+);
+
+create table payment
+(
+    id BIGSERIAL PRIMARY KEY,
+    amount INT NOT NULL,
+    receiver_id BIGINT REFERENCES users (id) NOT NULL,
+    version bigint default 1
 );
 
 CREATE TABLE users_chat
@@ -165,3 +173,37 @@ VALUES (1, 'en', 'Company 1 Description in English'),
        (4, 'it', 'Company 4 Description in Italian'),
        (5, 'en', 'Company 5 Description in English'),
        (5, 'ru', 'Company 5 Description in Russian');
+
+INSERT INTO payment (amount, receiver_id)
+VALUES (1000, 12),
+       (1500, 11),
+       (1500, 3),
+       (1500, 3),
+       (1500, 3),
+       (1500, 4),
+       (1500, 5),
+       (1500, 6),
+       (1500, 1),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12),
+       (1500, 12);
